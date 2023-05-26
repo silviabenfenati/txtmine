@@ -1,15 +1,18 @@
+from sklearn.base import accuracy_score
 import streamlit as st
 import pandas as pd
+import numpy as np
 import joblib
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
+from sklearn.metrics import accuracy_score
 from sklearn.model_selection import cross_val_score
 
-st.title('NLP Sentiment Classification')
+st.title('fake news classification')
 
-uploaded_model = joblib.load('NLPEs2.pkl')
+uploaded_model = joblib.load('fakenews.pkl')
 
 def user_input_features():
     user_input_text = st.text_input("Enter your text here")
@@ -32,7 +35,7 @@ if uploaded_file is not None:
     st.write(data)
 
     X = data['text'] #feature
-    y = data['sentiment'] #target
+    y = data['class'] #target
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=667)
 
@@ -59,4 +62,6 @@ if uploaded_file is not None:
     st.write(f'mean={np.mean(scores)}')
     st.write(f'std={np.std(scores)}')
 
-    joblib.dump(pipe,'NLPEs2.pkl')
+    joblib.dump(pipe,'fakenews.pkl')
+
+    #non ho neanche provato a runnarlo lol
